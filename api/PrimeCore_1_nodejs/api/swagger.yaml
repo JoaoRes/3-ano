@@ -1,0 +1,383 @@
+---
+swagger: "2.0"
+info:
+  description: "API Definition of primecore"
+  version: "1.0.0"
+  title: "primecore"
+schemes:
+- "https"
+- "http"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /AccessPoint:
+    get:
+      operationId: "accessPointGET"
+      parameters:
+      - name: "maxResult"
+        in: "query"
+        description: "max number of results returned (limited to 1000 by the backend)"
+        required: false
+        type: "number"
+      - name: "firstResult"
+        in: "query"
+        description: "first result index to be returned"
+        required: false
+        type: "number"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/inline_response_200"
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: "Unlimited"
+      x-swagger-router-controller: "Default"
+  /AccessPoint/{id}:
+    get:
+      operationId: "accessPointIdGET"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/AccessPointObject"
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: "Unlimited"
+      x-swagger-router-controller: "Default"
+  /AccessPoint/{name}/TotalUsernames:
+    get:
+      operationId: "accessPointNameTotalUsernamesGET"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "name"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/inline_response_200_1"
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: "Unlimited"
+      x-swagger-router-controller: "Default"
+  /AccessPoint/{name}/DeviceTypeCount:
+    get:
+      operationId: "accessPointNameDeviceTypeCountGET"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "name"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/inline_response_200_2"
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: "Unlimited"
+      x-swagger-router-controller: "Default"
+  /AccessPoint/Count:
+    get:
+      operationId: "accessPointCountGET"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/inline_response_200_1"
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: "Unlimited"
+      x-swagger-router-controller: "Default"
+  /RogueAccessPointAlarm:
+    get:
+      operationId: "rogueAccessPointAlarmGET"
+      parameters:
+      - name: "maxResult"
+        in: "query"
+        description: "max number of results returned (limited to 1000 by the backend)"
+        required: false
+        type: "number"
+      - name: "firstResult"
+        in: "query"
+        description: "first result index to be returned"
+        required: false
+        type: "number"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/inline_response_200_3"
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: "Unlimited"
+      x-swagger-router-controller: "Default"
+  /RogueAccessPointAlarm/{id}:
+    get:
+      operationId: "rogueAccessPointAlarmIdGET"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/RogueAccessPointAlarmObject"
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: "Unlimited"
+      x-swagger-router-controller: "Default"
+  /RogueAccessPointAlarm/Count:
+    get:
+      operationId: "rogueAccessPointAlarmCountGET"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/inline_response_200_1"
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: "Unlimited"
+      x-swagger-router-controller: "Default"
+  /NetworkMetric/{building}:
+    get:
+      operationId: "networkMetricBuildingGET"
+      parameters:
+      - name: "building"
+        in: "path"
+        description: "building"
+        required: true
+        type: "string"
+      - name: "metric"
+        in: "query"
+        description: "metric to fetch (tx or rx)"
+        required: true
+        type: "string"
+        enum:
+        - "rx"
+        - "tx"
+      - name: "timeInterval"
+        in: "query"
+        description: "time interval, integer (hours)"
+        required: false
+        type: "number"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/MetricsObject"
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: "Unlimited"
+      x-swagger-router-controller: "Default"
+  /Building:
+    get:
+      operationId: "buildingGET"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/inline_response_200_4"
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: "Unlimited"
+      x-swagger-router-controller: "Default"
+definitions:
+  AccessPointObject:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      clientCount:
+        type: "number"
+      clientCount_2_4GHz:
+        type: "number"
+      clientCount_5GHz:
+        type: "number"
+      location:
+        type: "string"
+      model:
+        type: "string"
+      name:
+        type: "string"
+      status:
+        type: "string"
+        enum:
+        - "CRITICAL"
+        - "MAJOR"
+        - "MINOR"
+        - "WARNING"
+        - "CLEARED"
+        - "INFORMATION"
+      type:
+        type: "string"
+      upTime:
+        type: "number"
+      macAddress:
+        type: "string"
+  RogueAccessPointAlarmObject:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      acknowledgementStatus:
+        type: "boolean"
+      alarmFoundAt:
+        type: "string"
+      deviceName:
+        type: "string"
+      lastUpdatedAt:
+        type: "string"
+      message:
+        type: "string"
+      severity:
+        type: "string"
+        enum:
+        - "CRITICAL"
+        - "MAJOR"
+        - "MINOR"
+        - "WARNING"
+        - "CLEARED"
+        - "INFORMATION"
+      timeStamp:
+        type: "string"
+      wirelessSpecificAlarmId:
+        type: "string"
+      rogueApAlarmDetails:
+        $ref: "#/definitions/RogueAccessPointAlarmObject_rogueApAlarmDetails"
+  MetricsObject:
+    type: "object"
+    properties:
+      metricsData:
+        $ref: "#/definitions/MetricsObject_metricsData"
+  inline_response_200:
+    properties:
+      first:
+        type: "number"
+      last:
+        type: "number"
+      count:
+        type: "number"
+      accessPoints:
+        type: "array"
+        items:
+          $ref: "#/definitions/AccessPointObject"
+  inline_response_200_1:
+    properties:
+      count:
+        type: "number"
+  inline_response_200_2_deviceTypeCounts:
+    properties:
+      deviceType:
+        type: "string"
+      count:
+        type: "number"
+  inline_response_200_2:
+    properties:
+      deviceTypeCounts:
+        type: "array"
+        items:
+          $ref: "#/definitions/inline_response_200_2_deviceTypeCounts"
+  inline_response_200_3:
+    properties:
+      first:
+        type: "number"
+      last:
+        type: "number"
+      count:
+        type: "number"
+      rogueAccessPointAlarms:
+        type: "array"
+        items:
+          $ref: "#/definitions/RogueAccessPointAlarmObject"
+  inline_response_200_4:
+    properties:
+      buildings:
+        type: "array"
+        items:
+          type: "string"
+  RogueAccessPointAlarmObject_rogueApAlarmDetails:
+    properties:
+      classificationType:
+        type: "string"
+        enum:
+        - "FRIENDLY"
+        - "MALICIOUS"
+        - "UNCLASSIFIED"
+        - "CUSTOM"
+      location:
+        type: "string"
+      rogueClients:
+        type: "number"
+      rssi:
+        type: "number"
+      ssid:
+        type: "string"
+      state:
+        type: "string"
+        enum:
+        - "INITIALIZING"
+        - "PENDING"
+        - "ALERT"
+        - "AIRESPACE_AP"
+        - "KNOWN"
+        - "ACKNOWLEDGED"
+        - "CONTAINED"
+        - "THREAT"
+        - "CONTAINED_PENDING"
+        - "KNOWN_CONTAINED"
+        - "TRUSTED_MISSING"
+        - "REMOVED"
+        - "WIRE_CONTAINED"
+      macAddress:
+        type: "string"
+  MetricsObject_metricsData_YValues:
+    properties:
+      yvalues:
+        type: "array"
+        items:
+          type: "number"
+  MetricsObject_metricsData_values:
+    properties:
+      XValue:
+        type: "number"
+      YValues:
+        $ref: "#/definitions/MetricsObject_metricsData_YValues"
+  MetricsObject_metricsData_XValueProperty:
+    properties:
+      label:
+        type: "string"
+      unit:
+        type: "string"
+  MetricsObject_metricsData_YValueProperty:
+    properties:
+      unit:
+        type: "string"
+      maxVal:
+        type: "number"
+      minVal:
+        type: "number"
+  MetricsObject_metricsData:
+    properties:
+      currentDateTime:
+        type: "number"
+      metricName:
+        type: "string"
+      description:
+        type: "string"
+      values:
+        type: "array"
+        items:
+          $ref: "#/definitions/MetricsObject_metricsData_values"
+      XValueProperty:
+        $ref: "#/definitions/MetricsObject_metricsData_XValueProperty"
+      YValueProperty:
+        $ref: "#/definitions/MetricsObject_metricsData_YValueProperty"

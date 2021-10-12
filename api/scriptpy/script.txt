@@ -1,0 +1,43 @@
+from os import wait
+import schedule
+import time
+import requests
+import json
+
+def access_token():
+    url = 'https://wso2-gw.ua.pt/token?grant_type=client_credentials&state=1234567890&scope=openid'
+
+    x = requests.post(url, headers={"Content-Type":"application/x-www-form-urlencoded", "Authorization" : "Basic VlNPdUMzT0FoZDFscnVBdDdHNmNCU3dNOHprYTp1c2tOMnJhcnJIU090V2dhU2NyT01zU0ZoUklh"} )
+
+    token = x.text[17:53]
+
+    return token
+
+token=access_token()
+
+def access_points():
+    
+    url = 'https://wso2-gw.ua.pt/primecore_primecore-ws/1.0.0/AccessPoint?maxResults=1000'
+    authorization = "Bearer " + token
+    x= requests.get(url, headers={"Authorization" : authorization})
+
+    text = str(x.text) 
+
+    f = open("ap.json","w")
+    f.write(text)
+    f.close()
+
+
+access_token()
+access_points()
+
+
+
+schedule.every(60).minutes.do(access_token)
+schedule.every(13).minutes.do(access_points)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+ 	
+    
